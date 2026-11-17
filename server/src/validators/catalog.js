@@ -82,11 +82,21 @@ const catalogQuerySchema = z.object({
   sort: z.enum(['price_asc', 'price_desc', 'newest', 'oldest', 'title_asc', 'title_desc']).optional().default('newest'),
 });
 
+const stockAdjustSchema = z.object({
+  delta: z
+    .number()
+    .int()
+    .refine((val) => val !== 0, {
+      message: 'delta debe ser un número entero distinto de 0',
+    }),
+  reason: z.string().trim().min(3).max(200),
+});
+
 module.exports = {
   createCategorySchema,
   updateCategorySchema,
   createBookSchema,
   updateBookSchema,
   catalogQuerySchema,
+  stockAdjustSchema,
 };
-

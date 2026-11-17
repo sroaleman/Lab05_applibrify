@@ -2,12 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Book = require('../models/Book');
 const Category = require('../models/Category');
+const StockMovement = require('../models/StockMovement');
 const { auth } = require('../middlewares/auth');
 const { requireRole } = require('../middlewares/requireRole');
+const { adjustStock } = require('../services/stock');
 const {
   createBookSchema,
   updateBookSchema,
   catalogQuerySchema,
+  stockAdjustSchema,
 } = require('../validators/catalog');
 
 const router = express.Router();
@@ -173,6 +176,55 @@ router.patch('/:id', auth, requireRole('administrador'), async (req, res, next) 
   }
 });
 
+// PATCH /api/books/:id/stock - Solo administrador: ajuste de stock
+router.patch('/:id/stock', auth, requireRole('administrador'), async (req, res, next) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Solicitud inválida' });
+    }
+
+    const { delta, reason } = stockAdjustSchema.parse(req.body);
+
+    try {
+      const updatedBook = await adjustStock({
+        bookId: req.params.id,
+        delta,
+        reason,
+        adminId: req.user._id,
+      });
+
+      return res.status(200).json(updatedBook.toJSON());
+    } catch (err) {
+      if (err.code === 'INSUFFICIENT_STOCK') {
+        return res.status(409).json({ error: 'Stock insuficiente' });
+      }
+      if (err.code === 'BOOK_NOT_FOUND') {
+        return res.status(404).json({ error: 'Libro no encontrado' });
+      }
+      throw err;
+    }
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// GET /api/books/:id/movements - Solo administrador: últimos 50 movimientos
+router.get('/:id/movements', auth, requireRole('administrador'), async (req, res, next) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Solicitud inválida' });
+    }
+
+    const movements = await StockMovement.find({ bookId: req.params.id })
+      .sort({ createdAt: -1 })
+      .limit(50);
+
+    return res.status(200).json(movements.map((m) => m.toJSON()));
+  } catch (err) {
+    return next(err);
+  }
+});
+
 // DELETE /api/books/:id - Solo administrador (soft delete)
 router.delete('/:id', auth, requireRole('administrador'), async (req, res, next) => {
   try {
@@ -197,4 +249,3 @@ router.delete('/:id', auth, requireRole('administrador'), async (req, res, next)
 });
 
 module.exports = router;
-
