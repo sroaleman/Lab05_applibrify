@@ -3,7 +3,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const healthRouter = require('./routes/health');
 const { authRouter, createAuthRouter } = require('./routes/auth');
+const usersRouter = require('./routes/users');
 const { originCheck } = require('./middlewares/originCheck');
+const { auth } = require('./middlewares/auth');
+const { requireRole } = require('./middlewares/requireRole');
 const { errorHandler } = require('./middlewares/errorHandler');
 
 function createApp() {
@@ -24,6 +27,7 @@ function createApp() {
   app.use(originCheck);
   app.use(healthRouter);
   app.use('/api/auth', createAuthRouter());
+  app.use('/api/users', auth, requireRole('administrador'), usersRouter);
   app.use(errorHandler);
 
   return app;
