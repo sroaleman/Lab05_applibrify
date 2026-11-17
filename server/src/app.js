@@ -4,6 +4,8 @@ const cors = require('cors');
 const healthRouter = require('./routes/health');
 const { authRouter, createAuthRouter } = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const categoriesRouter = require('./routes/categories');
+const booksRouter = require('./routes/books');
 const { originCheck } = require('./middlewares/originCheck');
 const { auth } = require('./middlewares/auth');
 const { requireRole } = require('./middlewares/requireRole');
@@ -28,6 +30,8 @@ function createApp() {
   app.use(healthRouter);
   app.use('/api/auth', createAuthRouter());
   app.use('/api/users', auth, requireRole('administrador'), usersRouter);
+  app.use('/api/categories', categoriesRouter);
+  app.use('/api/books', booksRouter);
   app.use(errorHandler);
 
   return app;
