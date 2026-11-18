@@ -311,6 +311,91 @@ describe('Bloque 4A - Pagos con PayPal (Sandbox / Doble Simulado)', () => {
     assert.equal(cartInDb.items.length, 0);
   });
 
+  test('Captura válida descuenta stock de libros DIGITAL y PHYSICAL', async () => {
+    const category = await Category.create({ name: 'Categoría Mixta', slug: 'categoria-mixta' });
+
+    const digitalBookWithStock = await Book.create({
+      title: 'Libro Digital con Stock',
+      author: 'Autor Digital',
+      categoryId: category._id,
+      price: 25.0,
+      currency: 'USD',
+      productType: 'DIGITAL',
+      fileKey: 'files/test-digital.pdf',
+      stock: 10,
+      isActive: true,
+    });
+
+    const physicalBookWithStock = await Book.create({
+      title: 'Libro Físico con Stock',
+      author: 'Autor Físico',
+      categoryId: category._id,
+      price: 35.0,
+      currency: 'USD',
+      productType: 'PHYSICAL',
+      stock: 10,
+      isActive: true,
+    });
+
+    const mixedOrder = await Order.create({
+      userId: userAId,
+      items: [
+        {
+          bookId: digitalBookWithStock._id,
+          titleSnapshot: digitalBookWithStock.title,
+          productType: 'DIGITAL',
+          unitPrice: 25.0,
+          qty: 2,
+          lineTotal: 50.0,
+        },
+        {
+          bookId: physicalBookWithStock._id,
+          titleSnapshot: physicalBookWithStock.title,
+          productType: 'PHYSICAL',
+          unitPrice: 35.0,
+          qty: 1,
+          lineTotal: 35.0,
+        },
+      ],
+      subtotal: 85.0,
+      total: 85.0,
+      currency: 'USD',
+      status: 'PENDING_PAYMENT',
+      paymentStatus: 'CREATED',
+    });
+
+    mockPayPal.capturePayPalOrder = async (providerOrderId) => ({
+      id: providerOrderId,
+      status: 'COMPLETED',
+      captureId: 'CAPTURE-MIXED-123',
+      amount: 85.0,
+      currency: 'USD',
+    });
+
+    await request(app)
+      .post('/api/payments/paypal/order')
+      .set('Origin', 'http://localhost:3000')
+      .set('Cookie', userACookie)
+      .send({ orderId: mixedOrder._id.toString() });
+
+    const captureRes = await request(app)
+      .post('/api/payments/paypal/capture')
+      .set('Origin', 'http://localhost:3000')
+      .set('Cookie', userACookie)
+      .send({
+        orderId: mixedOrder._id.toString(),
+        providerOrderId: 'PAYPAL-ORDER-12345',
+      });
+
+    assert.equal(captureRes.status, 200);
+
+    const updatedDigital = await Book.findById(digitalBookWithStock._id);
+    assert.equal(updatedDigital.stock, 8); // 10 - 2
+
+    const updatedPhysical = await Book.findById(physicalBookWithStock._id);
+    assert.equal(updatedPhysical.stock, 9); // 10 - 1
+  });
+
   test('Captura repetida: no vuelve a descontar stock ni a llamar a PayPal', async () => {
     // 1. Crear el pago
     await request(app)

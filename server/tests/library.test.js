@@ -154,6 +154,7 @@ describe('Bloque 4B - Biblioteca Digital y Descargas', () => {
       productType: 'DIGITAL',
       fileKey: 'files/digital-test.pdf',
       coverUrl: 'http://example.com/cover.png',
+      stock: 10,
       isActive: true,
     });
 

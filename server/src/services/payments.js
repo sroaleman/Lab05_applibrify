@@ -106,12 +106,11 @@ async function capturePaymentForOrder(userId, orderId, providerOrderId, client =
     throw err;
   }
 
-  // d) Descontar stock para libros físicos con compensación en caso de fallo
+  // d) Descontar stock para todas las líneas del pedido con compensación en caso de fallo
   const discountedMovements = [];
-  const physicalItems = order.items.filter((item) => item.productType === 'PHYSICAL');
 
   try {
-    for (const item of physicalItems) {
+    for (const item of order.items) {
       await adjustStock({
         bookId: item.bookId,
         delta: -item.qty,
