@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Order = require('../models/Order');
+const Shipment = require('../models/Shipment');
 const { createOrderFromCart } = require('../services/orders');
 const { createOrderSchema } = require('../validators/orders');
 
@@ -35,7 +36,7 @@ router.get('/me', async (req, res, next) => {
   }
 });
 
-// GET /api/orders/:id - Detalle de pedido (solo si pertenece al usuario)
+// GET /api/orders/:id - Detalle de pedido con envío asociado
 router.get('/:id', async (req, res, next) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -51,7 +52,22 @@ router.get('/:id', async (req, res, next) => {
       return res.status(404).json({ error: 'Pedido no encontrado' });
     }
 
-    return res.status(200).json(order.toJSON());
+    const orderData = order.toJSON();
+
+    // Consultar si tiene un envío asociado
+    const shipment = await Shipment.findOne({ orderId: order._id });
+    if (shipment) {
+      orderData.shipment = {
+        status: shipment.status,
+        carrier: shipment.carrier,
+        trackingNumber: shipment.trackingNumber,
+        events: shipment.events,
+      };
+    } else {
+      orderData.shipment = null;
+    }
+
+    return res.status(200).json(orderData);
   } catch (err) {
     return next(err);
   }

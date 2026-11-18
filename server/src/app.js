@@ -11,6 +11,7 @@ const addressesRouter = require('./routes/addresses');
 const ordersRouter = require('./routes/orders');
 const paymentsRouter = require('./routes/payments');
 const libraryRouter = require('./routes/library');
+const shipmentsRouter = require('./routes/shipments');
 const { originCheck } = require('./middlewares/originCheck');
 const { auth } = require('./middlewares/auth');
 const { requireRole } = require('./middlewares/requireRole');
@@ -51,6 +52,8 @@ function createApp(options = {}) {
 
   const activeLibraryRouter = options.libraryRouter || libraryRouter;
   app.use('/api/library', activeLibraryRouter);
+
+  app.use('/api/shipments', auth, requireRole('administrador'), shipmentsRouter);
 
   app.use(errorHandler);
 
