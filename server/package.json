@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "node --test --test-concurrency=1 tests/auth.test.js tests/users.test.js tests/catalog.test.js tests/stock.test.js tests/cart.test.js"
+    "test": "node --test --test-concurrency=1 tests/auth.test.js tests/users.test.js tests/catalog.test.js tests/stock.test.js tests/cart.test.js tests/orders.test.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
