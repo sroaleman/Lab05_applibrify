@@ -9,12 +9,13 @@ const booksRouter = require('./routes/books');
 const cartRouter = require('./routes/cart');
 const addressesRouter = require('./routes/addresses');
 const ordersRouter = require('./routes/orders');
+const paymentsRouter = require('./routes/payments');
 const { originCheck } = require('./middlewares/originCheck');
 const { auth } = require('./middlewares/auth');
 const { requireRole } = require('./middlewares/requireRole');
 const { errorHandler } = require('./middlewares/errorHandler');
 
-function createApp() {
+function createApp(options = {}) {
   const app = express();
 
   if (process.env.NODE_ENV === 'production') {
@@ -38,6 +39,10 @@ function createApp() {
   app.use('/api/cart', auth, cartRouter);
   app.use('/api/addresses', auth, addressesRouter);
   app.use('/api/orders', auth, ordersRouter);
+
+  const activePaymentsRouter = options.paymentsRouter || paymentsRouter;
+  app.use('/api/payments', auth, activePaymentsRouter);
+
   app.use(errorHandler);
 
   return app;
