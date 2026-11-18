@@ -1,5 +1,19 @@
 {
-  "/admin/envios/page": "app/admin/envios/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/carrito/page": "app/carrito/page.js",
+  "/page": "app/page.js",
+  "/direcciones/page": "app/direcciones/page.js",
+  "/libros/[id]/page": "app/libros/[id]/page.js",
+  "/biblioteca/page": "app/biblioteca/page.js",
+  "/pedidos/page": "app/pedidos/page.js",
+  "/ingresar/page": "app/ingresar/page.js",
+  "/pago/retorno/page": "app/pago/retorno/page.js",
+  "/pedidos/[id]/page": "app/pedidos/[id]/page.js",
+  "/registro/page": "app/registro/page.js",
+  "/admin/libros/page": "app/admin/libros/page.js",
+  "/admin/categorias/page": "app/admin/categorias/page.js",
   "/admin/pedidos/page": "app/admin/pedidos/page.js",
-  "/admin/categorias/page": "app/admin/categorias/page.js"
+  "/admin/page": "app/admin/page.js",
+  "/admin/libros/[id]/movimientos/page": "app/admin/libros/[id]/movimientos/page.js",
+  "/admin/envios/page": "app/admin/envios/page.js"
 }

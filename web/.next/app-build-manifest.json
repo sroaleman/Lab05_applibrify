@@ -1,30 +1,153 @@
 {
   "pages": {
-    "/admin/envios/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/envios/page.js"
-    ],
-    "/admin/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/layout.js"
+    "/_not-found/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/app/_not-found/page-9a1795a099256da4.js"
     ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/css/46bc55eee3544b46.css",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/layout-4b1947331f60d2a4.js"
     ],
-    "/admin/pedidos/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/pedidos/page.js"
+    "/carrito/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/carrito/page-0af98244034c5c3e.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/page-1c41111c9a489ed7.js"
+    ],
+    "/direcciones/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/direcciones/page-5ef6a81db433ff7c.js"
+    ],
+    "/libros/[id]/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/libros/[id]/page-2ee7546594bb09ec.js"
+    ],
+    "/biblioteca/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/biblioteca/page-a64da4089ecb28f5.js"
+    ],
+    "/pedidos/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/pedidos/page-23c932bdd535e7a2.js"
+    ],
+    "/ingresar/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/ingresar/page-2136434b45ed0320.js"
+    ],
+    "/pago/retorno/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/pago/retorno/page-c502180bb5e5fe6b.js"
+    ],
+    "/pedidos/[id]/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/pedidos/[id]/page-cc5e17d3d5adc20b.js"
+    ],
+    "/registro/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/registro/page-db41ccbb0559195c.js"
+    ],
+    "/admin/libros/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/admin/libros/page-b5f91a58655b263c.js"
+    ],
+    "/admin/layout": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/admin/layout-3bc894b5dbf313b9.js"
     ],
     "/admin/categorias/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/categorias/page.js"
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/app/admin/categorias/page-49fe466279c0e09f.js"
+    ],
+    "/admin/pedidos/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/admin/pedidos/page-57d6ca82cc939b83.js"
+    ],
+    "/admin/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/app/admin/page-ed9757fae1020a67.js"
+    ],
+    "/admin/libros/[id]/movimientos/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/648-b3ab632f8f70ab1f.js",
+      "static/chunks/app/admin/libros/[id]/movimientos/page-82f16399b38a571e.js"
+    ],
+    "/admin/envios/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-f8a2d551cbb94c85.js",
+      "static/chunks/117-d0aa9486d6cf1a7a.js",
+      "static/chunks/main-app-4358dfdb2277028d.js",
+      "static/chunks/app/admin/envios/page-b7f810bb1d63512d.js"
     ]
   }
 }
