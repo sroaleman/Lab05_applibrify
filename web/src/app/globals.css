@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-paper: #F7F1E5;
+  --bg-card: #FFFBF3;
+  --text-coffee: #3B2A1E;
+  --text-brown: #7A5C48;
+  --accent-leather: #8B5A2B;
+  --accent-leather-hover: #6F4420;
+  --accent-gold: #C9A227;
+  --border-paper: #E6D8C3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #3B2A1E;
+  background-color: #F7F1E5;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
