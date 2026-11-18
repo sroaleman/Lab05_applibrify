@@ -17,6 +17,8 @@ export default function Navbar() {
     router.push('/');
   };
 
+  const isAdmin = user && user.role === 'administrador';
+
   return (
     <nav className="bg-card border-b border-border-paper sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,12 +65,22 @@ export default function Navbar() {
             {!loading && (
               <>
                 {user ? (
-                  <div className="flex items-center space-x-4 sm:space-x-6">
+                  <div className="flex items-center space-x-3 sm:space-x-5">
+                    {/* Enlace especial visible solo para administradores */}
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="text-xs font-semibold uppercase tracking-wider bg-gold/20 text-coffee hover:bg-gold/30 px-2.5 py-1 rounded border border-gold/40 transition-colors"
+                      >
+                        Administración
+                      </Link>
+                    )}
+
                     <Link
                       href="/carrito"
-                      className="text-brown hover:text-leather text-sm font-medium transition-colors flex items-center space-x-1"
+                      className="text-brown hover:text-leather text-sm font-medium transition-colors"
                     >
-                      <span>Carrito</span>
+                      Carrito
                     </Link>
 
                     <Link
@@ -85,7 +97,7 @@ export default function Navbar() {
                       Biblioteca
                     </Link>
 
-                    <span className="text-sm text-brown hidden md:inline">
+                    <span className="text-sm text-brown hidden lg:inline">
                       Hola, <strong className="text-coffee">{user.name}</strong>
                     </span>
 

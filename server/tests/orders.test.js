@@ -392,4 +392,86 @@ describe('Bloque 3B - Pedidos desde Carrito', () => {
     assert.equal(resA.body.length, 1);
     assert.equal(resA.body[0].items[0].titleSnapshot, 'Libro Digital Uno');
   });
+
+  test('Administrador lista pedidos de todos los clientes', async () => {
+    // 1. Crear usuario administrador y loguearlo
+    const passHash = await bcrypt.hash('password123', 12);
+    await User.create({
+      name: 'Admin User',
+      email: 'admin@example.com',
+      passwordHash: passHash,
+      role: 'administrador',
+    });
+
+    const loginAdmin = await request(app)
+      .post('/api/auth/login')
+      .set('Origin', 'http://localhost:3000')
+      .send({ email: 'admin@example.com', password: 'password123' });
+    const adminCookie = loginAdmin.headers['set-cookie']
+      .map((c) => c.split(';')[0])
+      .join('; ');
+
+    // 2. Cliente A crea un pedido (DIGITAL)
+    await request(app)
+      .put(`/api/cart/items/${digitalBook._id}`)
+      .set('Origin', 'http://localhost:3000')
+      .set('Cookie', userACookie)
+      .send({ qty: 1 });
+
+    const orderResA = await request(app)
+      .post('/api/orders')
+      .set('Origin', 'http://localhost:3000')
+      .set('Cookie', userACookie)
+      .send({});
+    assert.equal(orderResA.status, 201);
+
+    // 3. Cliente B crea un pedido (PHYSICAL)
+    await request(app)
+      .put(`/api/cart/items/${physicalBook._id}`)
+      .set('Origin', 'http://localhost:3000')
+      .set('Cookie', userBCookie)
+      .send({ qty: 2 });
+
+    const orderResB = await request(app)
+      .post('/api/orders')
+      .set('Origin', 'http://localhost:3000')
+      .set('Cookie', userBCookie)
+      .send({ addressId: userBAddress._id.toString() });
+    assert.equal(orderResB.status, 201);
+
+    // 4. Cliente regular intenta listar pedidos: recibe 403 Forbidden
+    const forbiddenRes = await request(app)
+      .get('/api/orders')
+      .set('Cookie', userACookie);
+    assert.equal(forbiddenRes.status, 403);
+
+    // 5. Administrador lista pedidos: recibe 200 con pedidos de dos clientes distintos
+    const adminRes = await request(app)
+      .get('/api/orders')
+      .set('Cookie', adminCookie);
+    assert.equal(adminRes.status, 200);
+
+    const orders = adminRes.body.orders || adminRes.body;
+    assert.equal(orders.length, 2);
+
+    // Verificar que los pedidos pertenecen a dos clientes distintos
+    const userIds = orders.map((o) => o.userId.toString());
+    assert.ok(userIds.includes(userAId.toString()));
+    assert.ok(userIds.includes(userBId.toString()));
+
+    // Verificar estructura de cada pedido
+    for (const order of orders) {
+      assert.ok(order._id);
+      assert.ok(order.userId);
+      assert.ok(order.status);
+      assert.ok(order.paymentStatus);
+      assert.ok(order.total !== undefined);
+      assert.ok(order.currency);
+      assert.ok(order.createdAt);
+      assert.ok(order.deliveryType);
+      // No debe incluir información confidencial como fileKey ni passwordHash
+      assert.equal(order.passwordHash, undefined);
+      assert.equal(order.fileKey, undefined);
+    }
+  });
 });
