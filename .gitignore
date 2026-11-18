@@ -11,3 +11,4 @@ yarn-error.log*
 .idea/
 .vscode/
 *.swp
+server/storage-private/

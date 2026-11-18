@@ -10,6 +10,7 @@ const cartRouter = require('./routes/cart');
 const addressesRouter = require('./routes/addresses');
 const ordersRouter = require('./routes/orders');
 const paymentsRouter = require('./routes/payments');
+const libraryRouter = require('./routes/library');
 const { originCheck } = require('./middlewares/originCheck');
 const { auth } = require('./middlewares/auth');
 const { requireRole } = require('./middlewares/requireRole');
@@ -30,6 +31,11 @@ function createApp(options = {}) {
       credentials: true,
     })
   );
+
+  // originCheck aplica a mutaciones (POST, PUT, PATCH, DELETE).
+  // Nota de diseño: La ruta de descarga GET /api/library/:bookId/file es de tipo GET
+  // (no mutante) y no pasa por originCheck, permitiendo descargas directas desde navegador
+  // autenticadas exclusivamente mediante token temporal firmado.
   app.use(originCheck);
   app.use(healthRouter);
   app.use('/api/auth', createAuthRouter());
@@ -42,6 +48,9 @@ function createApp(options = {}) {
 
   const activePaymentsRouter = options.paymentsRouter || paymentsRouter;
   app.use('/api/payments', auth, activePaymentsRouter);
+
+  const activeLibraryRouter = options.libraryRouter || libraryRouter;
+  app.use('/api/library', activeLibraryRouter);
 
   app.use(errorHandler);
 

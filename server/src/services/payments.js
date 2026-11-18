@@ -4,6 +4,7 @@ const Cart = require('../models/Cart');
 const Book = require('../models/Book');
 const { adjustStock } = require('./stock');
 const { paypalClient } = require('./paypal');
+const { grantAccess } = require('./library');
 
 /**
  * Inicia el proceso de pago con PayPal para un pedido.
@@ -23,7 +24,6 @@ async function createPaymentForOrder(userId, orderId, client = paypalClient) {
     throw err;
   }
 
-  // Si ya existía un Payment CREATED para esta orden, podemos reusarlo o generar uno nuevo
   let paypalOrder;
   try {
     paypalOrder = await client.createPayPalOrder({
@@ -93,7 +93,6 @@ async function capturePaymentForOrder(userId, orderId, providerOrderId, client =
   // Validaciones del pago
   const isStatusValid = captureResult.status === 'COMPLETED';
   const isCurrencyValid = captureResult.currency === order.currency;
-  // Comparación numérica con tolerancia de centavos
   const isAmountValid =
     captureResult.amount !== null &&
     Math.abs(Number(captureResult.amount) - Number(order.total)) < 0.001;
@@ -127,7 +126,6 @@ async function capturePaymentForOrder(userId, orderId, providerOrderId, client =
       });
     }
   } catch (stockErr) {
-    // e) Revertir compensando líneas descontadas previamente
     for (const reverted of discountedMovements) {
       try {
         await adjustStock({
@@ -162,6 +160,18 @@ async function capturePaymentForOrder(userId, orderId, providerOrderId, client =
 
   // Vaciar el carrito del usuario
   await Cart.findOneAndUpdate({ userId }, { items: [] });
+
+  // Conceder acceso a la biblioteca digital (Bloque 4B)
+  try {
+    await grantAccess(userId, order._id);
+  } catch (grantErr) {
+    // Si grantAccess falla, registrar el error sin datos sensibles.
+    // El pedido ya está cobrado y en estado PAID, por lo que NO se revierte el pago.
+    console.error('Error al conceder acceso a biblioteca digital:', grantErr.message);
+    const err = new Error('Error al habilitar el acceso a la biblioteca digital');
+    err.status = 500;
+    throw err;
+  }
 
   return {
     status: 'CAPTURED',
