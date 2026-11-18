@@ -6,6 +6,8 @@ const { authRouter, createAuthRouter } = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const categoriesRouter = require('./routes/categories');
 const booksRouter = require('./routes/books');
+const cartRouter = require('./routes/cart');
+const addressesRouter = require('./routes/addresses');
 const { originCheck } = require('./middlewares/originCheck');
 const { auth } = require('./middlewares/auth');
 const { requireRole } = require('./middlewares/requireRole');
@@ -32,6 +34,8 @@ function createApp() {
   app.use('/api/users', auth, requireRole('administrador'), usersRouter);
   app.use('/api/categories', categoriesRouter);
   app.use('/api/books', booksRouter);
+  app.use('/api/cart', auth, cartRouter);
+  app.use('/api/addresses', auth, addressesRouter);
   app.use(errorHandler);
 
   return app;
