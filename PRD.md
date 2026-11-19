@@ -105,14 +105,14 @@ Librify es una plataforma de comercio electrónico especializada en la venta y d
 ### 3.10 Panel de Administración
 - Acceso restringido exclusivamente al rol `administrador`.
 - **Libros (`/admin/libros`)**:
-  - Listado de libros, creación (`POST /api/books`), edición (`PATCH /api/books/:id`) y desactivación lógica (`DELETE /api/books/:id`).
+  - Listado de libros, creación (`POST /api/books`), edición (`PATCH /api/books/:id`) y desactivación lógica (`DELETE /api/books/:id`, soft delete que marca únicamente `isActive: false`).
   - Ajuste manual de inventario (`PATCH /api/books/:id/stock`) con variación (`delta`) y motivo obligatorio (`reason`, mínimo 3 caracteres).
   - Historial de movimientos de inventario (`/admin/libros/[id]/movimientos`).
 - **Categorías (`/admin/categorias`)**:
   - Listado, alta y edición.
   - Eliminación segura: si la categoría cuenta con libros asociados, el backend responde con código `409 Conflict` y el mensaje `"La categoría tiene libros"`.
 - **Pedidos (`/admin/pedidos`)**:
-  - Consulta general de pedidos con paginación (`GET /api/orders?page=1&limit=20`), detallando cliente, total, tipo de entrega (`DIGITAL`, `PHYSICAL` o `MIXED`) y estado de pago (sin exponer datos sensibles como `passwordHash` o `fileKey`).
+  - Consulta general de pedidos con paginación (`GET /api/orders` con query params `page` [por defecto 1] y `limit` [por defecto 20, máx 50]), detallando cliente, total, tipo de entrega (`DIGITAL`, `PHYSICAL` o `MIXED`) y estado de pago (sin exponer datos sensibles como `passwordHash` o `fileKey`).
 - **Envíos (`/admin/envios`)**:
   - Creación de envíos (`POST /api/shipments`) para pedidos en estado `PAID` con libros físicos.
   - Actualización de transportadora, número de guía y notas de seguimiento (`PATCH /api/shipments/:id`).
